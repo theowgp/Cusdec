@@ -1,3 +1,4 @@
+% clear all
 
 %% PARAMETERS:
 % number of agents
@@ -16,22 +17,31 @@ mesh = Mesh(T, n);
 %% INITIAL CONDITIONS
 % initial positions
 x0 = initx(N, d, N);
+% x0 = x00;
 
 % initial velocities
-v0 = initv(N, d, 2);
+v0 = initv(N, d, N);
+% v0 = v00;
 
 
 
-
+%% SET OBJECTIVE PARAMETERS
+alpha1 = 1; % integral of V(t)
+alpha2 = 1; % V(T)
+alpha3 = 0; % control
+alpha4 = 0; % E(t)
+alpha5 = 0; % integral of X(t)
 
 %% CREATE THE DYNAMICS
+gamma = 1;
 delta = 1;
-dynamics = Dynamics(N, d, delta);
-
+M = 1;
+R = N;
+dynamics = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, M, R);
 
 
 %% CREATE THE OBJECTIVE
-objective = Objective(N, d);
+objective = Objective(dynamics, N, d, alpha2, alpha4);
 
 
 
@@ -40,7 +50,6 @@ A = [0 0 0; 0.5 0 0; -1 2 0];
 b = [1.0/6.0    2.0/3.0    1.0/6.0];
 % c = [0  0.5  1];
 s = 3;
-
 Nu = N*d;
 
 arg0 = [reshape(x0', [N*d, 1]); reshape(v0', [N*d, 1]); 0];
@@ -52,11 +61,11 @@ rk = RungeKutta(A, b, s, dynamics, objective, arg0, 2*N*d+1, Nu, T, n);
 solu0 = zeros(N*d, n,  s);
 
 
-%% MINIMIZATION
+%% NCG MINIMIZATION
 eps = 1;% not used 
 sigma = 0.001;
-limitLS = 5;
-limitA = 10;
+limitLS = 15;
+limitA = 25;
 [solx, solu] = NCG(rk, objective, mesh, solu0, eps, sigma, limitLS, limitA);
 
 sol = solx';
@@ -66,6 +75,7 @@ t = mesh.t;
 
 
 
- 
- 
-OUTPUT % script
+
+
+
+OUTPUT; % script

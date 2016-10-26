@@ -8,8 +8,9 @@ drct = - g;
 kLS = 0;
 while  kLS<limitLS
     [step, kA] = DetermineStepSize(rk, objective, mesh, solu, g, drct, sigma, limitA);
-
     solu = solu + step * drct;
+
+    
     gnext = rk.g_u(solu);
     beta = ComputeBetaK(g, gnext, drct, mesh);
     drct = - gnext + beta*drct;
