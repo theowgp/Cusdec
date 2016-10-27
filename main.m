@@ -9,7 +9,7 @@ d = 2;
 % final time
 T = 20;
 % number of time windows
-ndT = 10;
+ndT = 20;
 % time window
 dT = T/ndT;
 
@@ -18,7 +18,7 @@ n = 40;
 
 
 % radius of interraction
-R = 3.5;
+R = 3;
 
 
 

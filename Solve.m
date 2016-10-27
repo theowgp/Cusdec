@@ -44,7 +44,7 @@ solu0 = zeros(N*d, n,  s);
 %% NCG MINIMIZATION
 eps = 1;% not used 
 sigma = 0.001;
-limitLS = 50;
+limitLS = 100;
 limitA = 25;
 [solxi, solui] = NCG(rk, objective, mesh, solu0, eps, sigma, limitLS, limitA);
 
