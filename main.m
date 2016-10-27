@@ -48,7 +48,7 @@ argv0 = initial_v0;
 Adjc = get_adjacency(argx0, N, R, Rh, zeros(N));
 
 for k = 1:ndT
-    [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, T, n, R, Rh, Adjc);
+    [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, dT, n, R, Rh, Adjc);
     [argx0, argv0, z] = convert_state(solx(:, end), N, d);
     
     solution(:, (n+1)*(k-1)+1:(n+1)*k) = solx;
