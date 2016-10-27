@@ -1,8 +1,8 @@
-function [solx, solu] = iteration_MPC(N, d, argx0, argv0, T, n, R)
+function [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, T, n, R, Rh, Adjc)
 
 
     %% SET ADJACENCY MARIX
-    Adjc =  get_adjacency(argx0, N, R);
+    Adjc =  get_adjacency(argx0, N, R, Rh, Adjc);
 
     %% SET ARRAY OF NUMBERS OF AGENTS FOR EACH OPC
     Ns = zeros(1, N);
@@ -21,7 +21,7 @@ function [solx, solu] = iteration_MPC(N, d, argx0, argv0, T, n, R)
         v0 = set_w0(argv0, Adjc, N, i);
         Ns(i) = numbers_N(Adjc, N, i); 
 
-        [solxi, solui] = Solve(Ns(i), d, x0, v0, T, n);
+        [solxi, solui] = Solve(Ns(i), d, x0, v0, T, n, R);
     %       for the first dimension
         solx((i-1)*d+1:i*d, :) = solxi(1:d, :);
     %       for the second dimension

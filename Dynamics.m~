@@ -18,8 +18,7 @@ classdef Dynamics
        
        eps;
        
-       R;    
-       
+              
        M;
        
        cp;
@@ -43,8 +42,6 @@ classdef Dynamics
             obj.alpha3 = alpha3;
             obj.alpha5 = alpha5;
             obj.alpha7 = alpha7;
-            
-            obj.R = R;
             
             %cutoff precision
 %             obj.cp = 0.0000001;% worse than 0
@@ -92,13 +89,11 @@ classdef Dynamics
             res = res+  0.5*obj.alpha3 * norm(u)^2;
             res = res+  obj.alpha5 * B(x, x, obj.N);
             
-            if obj.alpha7 ~= 0
-                temp = 0;
-                for j = 2:obj.N
-                    temp = temp+    V(norm(x(1, :) - x(j, :)), obj.R);
-                end
-                res = res+  obj.alpha7 * temp;
+            temp = 0;
+            for j = 2:obj.N
+                temp = temp+    V(norm(x(1, :) - x(j, :)), obj.R);
             end
+            res = res+  obj.alpha7 * temp;
         end
         
         
@@ -287,13 +282,11 @@ classdef Dynamics
         function res = dfzdx(obj, x, k)
             res = obj.alpha5 * dBdw(x, k, obj.N, obj.d);
             
-            if obj.alpha7 ~= 0
-                temp = zeros(1, obj.d);
-                for j = 2:obj.N
-                    temp = temp+    dV(norm(x(1, :) - x(j, :)), obj.R) * obj.dnorm(x, 1, j, k);
-                end
-                res = res+  obj.alpha7 *temp;
+            temp = zeros(1, obj.d);
+            for j = 2:obj.N
+                temp = temp+    dV(norm(x(1, :) - x(j, :)), obj.R) * obj.dnorm(x, 1, j, k);
             end
+            res = res+  temp;
         end
                
     
