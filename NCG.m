@@ -4,9 +4,13 @@ g =  rk.g_u(solu);
 drct = - g;
 
 
+Phi0 = 9999999999999999;
+[solx, soly] = rk.solve_forward_equation(solu);
+Phi1 = objective.phi(solx(:, end));
+
 
 kLS = 0;
-while  kLS<limitLS
+while  kLS<limitLS && Phi1 < Phi0
     [step, kA] = DetermineStepSize(rk, objective, mesh, solu, g, drct, sigma, limitA);
     solu = solu + step * drct;
 
@@ -24,10 +28,12 @@ while  kLS<limitLS
     
     Gradient = normsolu(g, mesh);
     
-    [solx, soly] = rk.solve_forward_equation(solu);
-    Phi = objective.phi(solx(:, end));
+    Phi0 = Phi1;
     
-    disp([kLS, kA, Phi, Gradient]); 
+    [solx, soly] = rk.solve_forward_equation(solu);
+    Phi1 = objective.phi(solx(:, end));
+    
+    disp([kLS, kA, Phi1, Gradient]); 
     
 end
 

@@ -7,7 +7,7 @@ N = 3;
 d = 2;
 
 % final time
-T = 20;
+T = 100;
 % number of time windows
 ndT = 10;
 % time window
@@ -18,7 +18,7 @@ n = 40;
 
 
 % radius of interraction
-R = 3.5;
+R = 3;
 
 
 
@@ -38,7 +38,7 @@ solution = zeros(2*N*d+1, (n+1)*ndT);
 s = 3;% (should be the same as is used in Runge=Kutta scheme)
 control = zeros(N*d, n*ndT, s);
 
-% set the initial condition
+
 argx0 = initial_x0;
 argv0 = initial_v0;
 
@@ -47,14 +47,15 @@ for k = 1:ndT
     [argx0, argv0, z] = convert_state(solx(:, end), N, d);
     
     solution(:, (n+1)*(k-1)+1:(n+1)*k) = solx;
-    control(:, n*(k-1)+1:n*k, :) = solu;
-    
-    plot_trajectories(solx, N);
-    hold all
+    control(:, n*(k-1)+1:n*k, s) = solx;
 end
 
-% sol = solution';
-% t = mesh.t;
+sol = solx';
+t = mesh.t;
+
+
+
+
 
 
 
