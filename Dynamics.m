@@ -260,7 +260,7 @@ classdef Dynamics
             end
             
             %dfzdx
-            if obj.alpha5 ~= 0
+            if obj.alpha5 ~= 0 || obj.alpha7 ~= 0
                 temp = zeros(1, N*d);
                 for k = 1:N
                     temp((k-1)*d+1:k*d) = obj.dfzdx(x, k); 

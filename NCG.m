@@ -34,7 +34,6 @@ while  kLS<limitLS && Phi1 < Phi0
     Phi1 = objective.phi(solx(:, end));
     
     disp([kLS, kA, Phi1, Gradient]); 
-    
 end
 
 

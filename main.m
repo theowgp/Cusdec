@@ -2,14 +2,14 @@
 
 %% PARAMETERS:
 % number of agents
-N = 3;
+N = 5;
 % dimension
 d = 2;
 
 % final time
 T = 20;
 % number of time windows
-ndT = 20;
+ndT = 40;
 % time window
 dT = T/ndT;
 
@@ -18,9 +18,9 @@ n = 40;
 
 
 % radius of interraction
-R = 3;
+R = 2.5;
 % radius of hysteresis
-Rh = 2.5;
+Rh = 3*R/4;
 
 
 
@@ -58,8 +58,7 @@ for k = 1:ndT
     hold all
 end
 
-% sol = solution';
-% t = mesh.t;
+
 
 
 

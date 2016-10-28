@@ -32,28 +32,28 @@ title('V(t) = 1/2N^2  sumij||vi -vj ||^2');
 %% PLOT TRAJECTORIES
 figure
 for i = 1:N
-    plot(sol(1, 2*i-1), sol(1, 2*i), 'o', 'Color', 'k');
+    plot(sol(1, 2*i-1), sol(1, 2*i), 'o');
     hold all
-    plot(sol(:, 2*i-1), sol(:, 2*i), 'Color', 'blue');
+    plot(sol(:, 2*i-1), sol(:, 2*i));
     hold all
 end
-%% PLOT THE TERMINAL VELOCITY VECTORS
+%% PLOT THE VELOCITY VECTORS
 hold all
 for i = 1:N
     h = quiver(sol(end, 2*i-1), sol(end, 2*i), 5*vT(i, 1), 5*vT(i, 2),'filled');
     h.MaxHeadSize = 1;
     set(h,'linewidth',1);
+    set(h,'color',[0,0,0]);
+end
+%% PLOT THE VELOCITY VECTORS
+hold all
+for i = 1:N
+    h = quiver(initial_x0(i, 1), initial_x0(i, 2), 5*vT(i, 1), 5*vT(i, 2),'filled');
+    h.MaxHeadSize = 1;
+    set(h,'linewidth',1);
     set(h,'color',[1,0,0]);
 end
-% %% PLOT THE INITIAL VELOCITY VECTORS
-% hold all
-% for i = 1:N
-%     h = quiver(initial_x0(i, 1), initial_x0(i, 2), 1*initial_v0(i, 1), 1*initial_v0(i, 2),'filled');
-%     h.MaxHeadSize = 1;
-%     set(h,'linewidth',1);
-%     set(h,'color',[1,0,0]);
-% end
-% title('evolution');
+title('evolution');
 
 
 
@@ -99,29 +99,19 @@ end
 %% PLOT THE GRAPH
 figure
 % hold all
-[X, Y] = gplot(Adjc, xT);
-plot(X, Y, '-o', 'Color', 'b');
+gplot(Adjc, xT,'-o');
 title('connectivity graph');
 
 hold all
 Adjc0 = get_adjacency(initial_x0, N, R, Rh, zeros(N));
-[X, Y] = gplot(Adjc, initial_x0);
-plot(X, Y, '-o', 'Color', 'b');
+gplot(Adjc, initial_x0,'-o');
 
-%% PLOT THE TERMINAL VELOCITY VECTORS
+%% PLOT THE VELOCITY VECTORS
 hold all
 for i = 1:N
     h = quiver(sol(end, 2*i-1), sol(end, 2*i), 5*vT(i, 1), 5*vT(i, 2),'filled');
     h.MaxHeadSize = 1;
     set(h,'linewidth',1);
-    set(h,'color',[1,0,0]);
-end
-title('evolution');
-%% PLOT THE INITIAL VELOCITY VECTORS
-hold all
-for i = 1:N
-    h = quiver(initial_x0(i, 1), initial_x0(i, 2), 1*initial_v0(i, 1), 1*initial_v0(i, 2),'filled');
-    h.MaxHeadSize = 1;
-    set(h,'linewidth',1);
     set(h,'color',[0,0,0]);
 end
+title('evolution');

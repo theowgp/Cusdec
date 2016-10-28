@@ -12,7 +12,7 @@ alpha2 = 1; % V(T)
 alpha3 = 0; % control
 alpha4 = 0; % E(t)
 alpha5 = 0; % integral of X(t)
-alpha7 = 0; % the Morse like potential from the Jabbabai paper
+alpha7 = 1; % the Morse like potential from the Jabbabai paper
 
 %% CREATE THE DYNAMICS
 gamma = 1;
