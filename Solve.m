@@ -1,4 +1,4 @@
-function [solxi, solui] = Solve(N, d, x0, v0, T, n, R)
+function [solxi, solui] = Solve(N, d, x0, v0, T, n, R, Adjc)
 
 mesh = Mesh(T, n);
 
@@ -14,11 +14,13 @@ alpha4 = 0; % E(t)
 alpha5 = 0; % integral of X(t)
 alpha7 = 1; % the Morse like potential from the Jabbabai paper
 
+
+
 %% CREATE THE DYNAMICS
 gamma = 1;
 delta = 1;
 M = 1;
-dynamics = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, alpha7, M, R);
+dynamics = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, alpha7, M, R, Adjc);
 
 
 %% CREATE THE OBJECTIVE

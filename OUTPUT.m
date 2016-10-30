@@ -1,11 +1,16 @@
-mesh = Mesh(dT, n);
 
-sol = solution';
-t = zeros(1, ndT*(n+1));
-for k = 1:ndT 
-    t((n+1)*(k-1)+1:(n+1)*k) = mesh.t + (k-1)*dT;
-end
 
+solx = solution;
+solu = control;
+x0 = initial_x0;
+v0 = initial_v0;
+
+
+[m, n] = size(solution) ;
+mesh = Mesh(T, n-1);
+t = mesh.t;
+
+sol = solx';
 
 %% GET ENDTIME VALUES
 [xT, vT, zT, uT] = convert(solx(:, end), solu(:, end, 1), N, d);
@@ -24,7 +29,7 @@ for k = 1:length(t)
     YV(k) =  B(v, v, N);
 end
 plot(t, YV);
-title('V(t) = 1/2N^2  sumij||vi -vj ||^2');
+% title('B(v, v)');
 
 
 
@@ -45,6 +50,7 @@ for i = 1:N
     set(h,'linewidth',1);
     set(h,'color',[1,0,0]);
 end
+% title('trajectories evolution');
 % %% PLOT THE INITIAL VELOCITY VECTORS
 % hold all
 % for i = 1:N
@@ -101,11 +107,11 @@ figure
 % hold all
 [X, Y] = gplot(Adjc, xT);
 plot(X, Y, '-o', 'Color', 'b');
-title('connectivity graph');
+% title('connectivity graph');
 
 hold all
-Adjc0 = get_adjacency(initial_x0, N, R, Rh, zeros(N));
-[X, Y] = gplot(Adjc, initial_x0);
+Adjc0 = get_adjacency(x0, N, R, Rh, zeros(N));
+[X, Y] = gplot(Adjc0, x0);
 plot(X, Y, '-o', 'Color', 'b');
 
 %% PLOT THE TERMINAL VELOCITY VECTORS
@@ -116,12 +122,16 @@ for i = 1:N
     set(h,'linewidth',1);
     set(h,'color',[1,0,0]);
 end
-title('evolution');
+% title('graph evolution');
 %% PLOT THE INITIAL VELOCITY VECTORS
 hold all
 for i = 1:N
-    h = quiver(initial_x0(i, 1), initial_x0(i, 2), 1*initial_v0(i, 1), 1*initial_v0(i, 2),'filled');
+    h = quiver(x0(i, 1), x0(i, 2), v0(i, 1), v0(i, 2),'filled');
     h.MaxHeadSize = 1;
     set(h,'linewidth',1);
     set(h,'color',[0,0,0]);
 end
+
+
+
+

@@ -21,6 +21,8 @@ classdef Dynamics
        R;    
        
        M;
+
+       Adjc;
        
        cp;
         
@@ -33,7 +35,7 @@ classdef Dynamics
     
     methods
         
-        function obj = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, alpha7, M, R)
+        function obj = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, alpha7, M, R, Adjc)
             obj.N = N;
             obj.d = d;
             obj.delta = delta;
@@ -45,6 +47,7 @@ classdef Dynamics
             obj.alpha7 = alpha7;
             
             obj.R = R;
+            obj.Adjc = Adjc;
             
             %cutoff precision
 %             obj.cp = 0.0000001;% worse than 0
@@ -94,8 +97,12 @@ classdef Dynamics
             
             if obj.alpha7 ~= 0
                 temp = 0;
-                for j = 2:obj.N
-                    temp = temp+    V(norm(x(1, :) - x(j, :)), obj.R);
+                for i = 1:obj.N
+                    for j = 1:obj.N
+                        if obj.Adjc(i, j) ~= 0 && i > j
+                            temp = temp+    V(norm(x(i, :) - x(j, :)), obj.R);
+                        end
+                    end
                 end
                 res = res+  obj.alpha7 * temp;
             end
@@ -289,8 +296,12 @@ classdef Dynamics
             
             if obj.alpha7 ~= 0
                 temp = zeros(1, obj.d);
-                for j = 2:obj.N
-                    temp = temp+    dV(norm(x(1, :) - x(j, :)), obj.R) * obj.dnorm(x, 1, j, k);
+                for i = 1:obj.N
+                    for j = 1:obj.N
+                        if obj.Adjc(i, j) ~= 0 && i > j
+                            temp = temp+    dV(norm(x(i, :) - x(j, :)), obj.R) * obj.dnorm(x, i, j, k);
+                        end
+                    end
                 end
                 res = res+  obj.alpha7 *temp;
             end

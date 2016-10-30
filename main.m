@@ -9,12 +9,12 @@ d = 2;
 % final time
 T = 20;
 % number of time windows
-ndT = 40;
+ndT = 5;
 % time window
 dT = T/ndT;
 
 % mesh length of a window
-n = 40;
+n = 5;
 
 
 % radius of interraction
@@ -44,11 +44,15 @@ control = zeros(N*d, n*ndT, s);
 argx0 = initial_x0;
 argv0 = initial_v0;
 
+decentralized = 1;
+
 % set the initial adjacency matrix
 Adjc = get_adjacency(argx0, N, R, Rh, zeros(N));
 
 for k = 1:ndT
-    [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, dT, n, R, Rh, Adjc);
+    k
+    
+    [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, dT, n, R, Rh, Adjc, decentralized);
     [argx0, argv0, z] = convert_state(solx(:, end), N, d);
     
     solution(:, (n+1)*(k-1)+1:(n+1)*k) = solx;
@@ -63,4 +67,5 @@ end
 
 
 
-% OUTPUT; % script
+
+output(solution, control, N, d, initial_x0, initial_v0, Adjc, R, Rh);
