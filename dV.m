@@ -4,6 +4,8 @@ function res = dV(r, R, N)
 
 res = 2*(r - R/N);
 
+% res = -4*r*((R/N)^2 - r^2);
+
 
 % res = 2*r;
 

@@ -46,7 +46,7 @@ control = zeros(N*d, n*ndT, s);
 argx0 = initial_x0;
 argv0 = initial_v0;
 
-decentralized = 2;
+decentralized = 1;
 
 % set the initial adjacency matrix
 Adjc = get_adjacency(argx0, N, R, Rh, zeros(N));

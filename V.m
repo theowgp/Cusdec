@@ -4,6 +4,8 @@ function res = V(r, R, N)
 
 res = (r - R/N)^2;
 
+% res = ((R/N)^2 - r^2)^2;
+
 % res = r^2;
 
 end
