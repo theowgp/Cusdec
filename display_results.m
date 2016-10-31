@@ -1,7 +1,7 @@
-function output(solx, solu, N, d, x0, v0, Adjc, R, Rh)
+function display_results(solx, solu, N, d, T, x0, v0, Adjc, R, Rh)
 
 
-[m, n] = size(solution) ;
+[m, n] = size(solx) ;
 mesh = Mesh(T, n-1);
 t = mesh.t;
 
@@ -24,7 +24,7 @@ for k = 1:length(t)
     YV(k) =  B(v, v, N);
 end
 plot(t, YV);
-title('B(v, v)');
+% title('B(v, v)');
 
 
 
@@ -45,11 +45,11 @@ for i = 1:N
     set(h,'linewidth',1);
     set(h,'color',[1,0,0]);
 end
-title('trajectories evolution');
+% title('trajectories evolution');
 % %% PLOT THE INITIAL VELOCITY VECTORS
 % hold all
 % for i = 1:N
-%     h = quiver(initial_x0(i, 1), initial_x0(i, 2), 1*initial_v0(i, 1), 1*initial_v0(i, 2),'filled');
+%     h = quiver(initial_x0(i, 1), x0(i, 2), 1*v0(i, 1), 1*v0(i, 2),'filled');
 %     h.MaxHeadSize = 1;
 %     set(h,'linewidth',1);
 %     set(h,'color',[1,0,0]);
@@ -62,7 +62,7 @@ title('trajectories evolution');
 % % d = 1
 % figure
 % for i = 1:N
-%     plot(t(1:end-ndT), control(2*i-1, :, 1));
+%     plot(t(1:end-ndT), solu(2*i-1, :, 1));
 %     hold all
 % end
 % title('controls d = 1');
@@ -70,7 +70,7 @@ title('trajectories evolution');
 % % d = 2
 % figure
 % for i = 1:N
-%     plot(t(1:end-ndT), control(2*i, :, 1));
+%     plot(t(1:end-ndT), solu(2*i, :, 1));
 %     hold all
 % end
 % title('controls d = 2');
@@ -102,7 +102,7 @@ figure
 % hold all
 [X, Y] = gplot(Adjc, xT);
 plot(X, Y, '-o', 'Color', 'b');
-title('connectivity graph');
+% title('connectivity graph');
 
 hold all
 Adjc0 = get_adjacency(x0, N, R, Rh, zeros(N));
@@ -117,16 +117,33 @@ for i = 1:N
     set(h,'linewidth',1);
     set(h,'color',[1,0,0]);
 end
-title('graph evolution');
+% title('graph evolution');
 %% PLOT THE INITIAL VELOCITY VECTORS
 hold all
 for i = 1:N
-    h = quiver(x0(i, 1), x0(i, 2), v0(i, 1), v0(i, 2),'filled');
-    h.MaxHeadSize = 1;
+    h = quiver(x0(i, 1), x0(i, 2), 0.5*v0(i, 1), 0.5*v0(i, 2),'filled');
+    h.MaxHeadSize = 0.5;
     set(h,'linewidth',1);
     set(h,'color',[0,0,0]);
 end
 
 
-end
+BvT = B(vT, vT, N)
+
+ET = E(vT, vT, N)
+
+vT
+
+
+g0 = graph(Adjc0);
+gT = graph(Adjc);
+
+figure
+plot(g0);
+figure
+plot(gT);
+
+
+
+
 

@@ -7,14 +7,14 @@ N = 5;
 d = 2;
 
 % final time
-T = 10;
+T = 4;
 % number of time windows
 ndT = 10;
 % time window
 dT = T/ndT;
 
 % mesh length of a window
-n = 10;
+n = 20;
 
 
 % radius of interraction
@@ -46,7 +46,7 @@ control = zeros(N*d, n*ndT, s);
 argx0 = initial_x0;
 argv0 = initial_v0;
 
-decentralized = 2;
+decentralized = 0;
 
 % set the initial adjacency matrix
 Adjc = get_adjacency(argx0, N, R, Rh, zeros(N));

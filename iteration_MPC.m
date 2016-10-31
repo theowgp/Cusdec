@@ -41,8 +41,10 @@ if decentralized
     end
 else
     [solx, solu] = Solve(N, d, argx0, argv0, T, n, R, Adjc);
-    
 end
+
+
+
 
 
 end

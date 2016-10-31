@@ -99,8 +99,8 @@ classdef Dynamics
                 temp = 0;
                 for i = 1:obj.N
                     for j = 1:obj.N
-                        if obj.Adjc(i, j) ~= 0 && i > j
-                            temp = temp+    V(norm(x(i, :) - x(j, :)), obj.R);
+                        if obj.Adjc(i, j) ~= 0 && j > i
+                            temp = temp+    V(norm(x(i, :) - x(j, :)), obj.R, obj.N);
                         end
                     end
                 end
@@ -298,8 +298,8 @@ classdef Dynamics
                 temp = zeros(1, obj.d);
                 for i = 1:obj.N
                     for j = 1:obj.N
-                        if obj.Adjc(i, j) ~= 0 && i > j
-                            temp = temp+    dV(norm(x(i, :) - x(j, :)), obj.R) * obj.dnorm(x, i, j, k);
+                        if obj.Adjc(i, j) ~= 0 && j > i
+                            temp = temp+    dV(norm(x(i, :) - x(j, :)), obj.R, obj.N) * obj.dnorm(x, i, j, k);
                         end
                     end
                 end
