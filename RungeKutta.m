@@ -15,14 +15,13 @@ classdef RungeKutta
                 
         arg0;
         
-        sN;
-        sd;
+       
      
     end
     
     methods
                 
-        function obj = RungeKutta(A, b, s, dynamics, objective, arg0, N, Nu, T, n, sN, sd)
+        function obj = RungeKutta(A, b, s, dynamics, objective, arg0, N, Nu, T, n)
             obj.grid = Mesh(T, n);  
             
             obj.A = A;
@@ -32,8 +31,7 @@ classdef RungeKutta
             obj.N = N;
             obj.Nu = Nu;
             
-            obj.sN = sN;
-            obj.sd = sd;
+  
             
             obj.dynamics = dynamics;
             obj.objective = objective;
@@ -104,8 +102,7 @@ classdef RungeKutta
            res = zeros(obj.Nu, obj.grid.n, obj.s);
            for k = 1:obj.grid.n
                for i=1:obj.s
-%                    res(:, k, i) = -obj.grid.h*obj.b(i) * solkhi(:, k, i)' * obj.dynamics.GuF(soly(:, k, i), solu(:, k, i));
-                   res(:, k, i) = -obj.grid.h*obj.b(i) * solkhi(obj.sN*obj.sd + 1 : obj.sN*obj.sd + obj.sd, k, i);
+                   res(:, k, i) = -obj.grid.h*obj.b(i) * solkhi(:, k, i)' * obj.dynamics.GuF(soly(:, k, i), solu(:, k, i));
                end
            end
         end

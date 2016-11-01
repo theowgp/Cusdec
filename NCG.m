@@ -33,7 +33,7 @@ while  kLS<limitLS && Phi1 < Phi0
     [solx, soly] = rk.solve_forward_equation(solu);
     Phi1 = objective.phi(solx(:, end));
     
-%     disp([kLS, kA, Phi1, Gradient]); 
+    disp([kLS, kA, Phi1, Gradient]); 
 end
 
 

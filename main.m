@@ -2,14 +2,14 @@
 
 %% PARAMETERS:
 % number of agents
-N = 10;
+N = 5;
 % dimension
 d = 2;
 
 % final time
 T = 20;
 % number of time windows
-ndT = 100;
+ndT = 40;
 % time window
 dT = T/ndT;
 
