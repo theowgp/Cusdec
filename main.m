@@ -7,9 +7,9 @@ N = 10;
 d = 2;
 
 % final time
-T = 30;
+T = 20;
 % number of time windows
-ndT = 80;
+ndT = 100;
 % time window
 dT = T/ndT;
 
