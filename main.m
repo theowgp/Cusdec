@@ -18,10 +18,7 @@ n = 10;
 
 
 % radius of interraction
-R = 20;
-% radius of hysteresis
-% Rh = 3*R/4; % !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Rh = R;
+R = 2;
 
 
 
@@ -48,12 +45,12 @@ argv0 = initial_v0;
 
 
 % set the initial adjacency matrix
-Adjc = get_adjacency(argx0, N, R, Rh, zeros(N));
+Adjc = get_adjacency(initial_x0, N, R, zeros(N));
 
 for k = 1:ndT
     k
     
-    [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, dT, n, R, Rh, Adjc);
+    [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, dT, n, R, Adjc);
     [argx0, argv0, z] = convert_state(solx(:, end), N, d);
     
     solution(:, (n+1)*(k-1)+1:(n+1)*k) = solx;
@@ -68,4 +65,4 @@ end
 
 
 
-display_results(solution, control, N, d, T, initial_x0, initial_v0, Adjc, R, Rh);
+display_results(solution, control, N, d, T, initial_x0, initial_v0, Adjc, R);

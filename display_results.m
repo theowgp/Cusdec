@@ -1,4 +1,4 @@
-function display_results(solx, solu, N, d, T, x0, v0, Adjc, R, Rh)
+function display_results(solx, solu, N, d, T, x0, v0, Adjc, R)
 
 
 [m, n] = size(solx) ;
@@ -8,7 +8,7 @@ t = mesh.t;
 sol = solx';
 
 %% GET ENDTIME VALUES
-[xT, vT, zT, uT] = convert(solx(:, end), solu(:, end, 1), N, d);
+[xT, vT, zT, uT] = convert(solx(:, end), solu(:, end, 1), N, N, d);
 
 
 %% NORM of the SYSTEM VELOCITY at the end-time
@@ -105,7 +105,7 @@ plot(X, Y, '-o', 'Color', 'b');
 % title('connectivity graph');
 
 hold all
-Adjc0 = get_adjacency(x0, N, R, Rh, zeros(N));
+Adjc0 = get_adjacency(x0, N, R, zeros(N));
 [X, Y] = gplot(Adjc0, x0);
 plot(X, Y, '-o', 'Color', 'b');
 

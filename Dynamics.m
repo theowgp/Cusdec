@@ -175,9 +175,9 @@ classdef Dynamics
         
         
         function res = F(obj, argx, argu)
-            [x, v, z, u] = convert(argx, argu, obj.N, obj.d);
+            [x, v, z, u] = convert(argx, argu, obj.N, 1, obj.d);
             
-            res = [reshape(obj.fx(v)', [obj.N*obj.d, 1]);    reshape(obj.fv(x, v, u)', [obj.N*obj.d, 1]);     obj.fz(x, v, u)];
+            res = [reshape(obj.fx(v)', [obj.N*obj.d, 1]);    reshape(obj.fv(x, v, u)', [obj.N*obj.d, 1]);     obj.fz(x, v)];
         end
         
         
@@ -189,7 +189,7 @@ classdef Dynamics
         
         
         function res = GxF(obj, argx, argu)
-            [x, v, z, u] = convert(argx, argu, obj.N, obj.d);
+            [x, v, z, u] = convert(argx, argu, obj.N, 1, obj.d);
             
             N = obj.N;
             d = obj.d;
