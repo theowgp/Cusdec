@@ -105,7 +105,7 @@ classdef RungeKutta
            for k = 1:obj.grid.n
                for i=1:obj.s
 %                    res(:, k, i) = -obj.grid.h*obj.b(i) * solkhi(:, k, i)' * obj.dynamics.GuF(soly(:, k, i), solu(:, k, i));
-                   res(:, k, i) = -obj.grid.h*obj.b(i) * solkhi(obj.sN*obj.sd + 1 : obj.sN*obj.sd + obj.sd, k, i);
+                   res(:, k, i) = -obj.grid.h*obj.b(i) * solkhi(:, k, i)' * obj.dynamics.GuF(soly(:, k, i), solu(:, k, i));
                end
            end
         end

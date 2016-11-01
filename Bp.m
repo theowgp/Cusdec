@@ -1,5 +1,4 @@
 function res = Bp(w, p, N)
-
 res = 0;
 
 for j = 1:obj.N
@@ -9,7 +8,5 @@ for j = 1:obj.N
 end
 
 res = res/N;
-    
-
 end
 

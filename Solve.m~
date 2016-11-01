@@ -44,9 +44,6 @@ eps = 1;% not used
 sigma = 0.001;
 limitLS = 100;
 limitA = 25;
-
-mesh = Mesh(T, n);
-
 [solxp, solup] = NCG(rk, objective, mesh, solu0, eps, sigma, limitLS, limitA);
 
 
