@@ -9,10 +9,10 @@ mesh = Mesh(T, n);
 %% SET OBJECTIVE PARAMETERS
 alpha1 = 0; % integral of V(t)
 alpha2 = 1; % V(T)
-alpha3 = 0; % control
+% alpha3 = 0; % control
 alpha4 = 0; % E(t)
 alpha5 = 0; % integral of X(t)
-alpha7 = 1; % the Morse like potential from the Jabbabai paper
+alpha7 = 1; % the potential 
 
 
 

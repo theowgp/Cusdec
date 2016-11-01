@@ -4,28 +4,27 @@ classdef Dynamics
        N;
        d;
         
-       gamma;
-       
+              
        delta;
        
-       alpha1;
+       
+       
+       alpha1;% integral of V(t)
      
-       alpha3;
+%        alpha3; % control cost
        
-       alpha5;
+       alpha5;% integral of X(t)
        
-       alpha7;
+       alpha7;% the potential 
        
-       eps;
-       
+             
        R;    
        
-       M;
-
-       Adjc;
-       
-       cp;
         
+    end
+    
+    properties (Constant)
+        Me = 1; % index of the controlled agent is always 1
     end
     
     
@@ -35,24 +34,19 @@ classdef Dynamics
     
     methods
         
-        function obj = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, alpha7, M, R, Adjc)
+        function obj = Dynamics(N, d, delta, alpha1, alpha7, R)
             obj.N = N;
             obj.d = d;
+            
             obj.delta = delta;
-            obj.gamma = gamma;
-            obj.M = M;
-            obj.alpha1 = alpha1;
-            obj.alpha3 = alpha3;
-            obj.alpha5 = alpha5;
-            obj.alpha7 = alpha7;
+            
+            obj.alpha1 = alpha1;% integral of Bp(v)
+%             obj.alpha3 = alpha3; %control cost
+            obj.alpha7 = alpha7;% the potential 
             
             obj.R = R;
-            obj.Adjc = Adjc;
             
-            %cutoff precision
-%             obj.cp = 0.0000001;% worse than 0
-            obj.cp = 0;
-        end
+         end
         
 
         
@@ -72,8 +66,10 @@ classdef Dynamics
                 for j=1:obj.N
                     temp = temp+  obj.a(norm(x(i, :) - x(j, :))) * (v(j, :) - v(i, :));
                 end 
-                res(i, :) = temp/obj.N + u(i, :);
+                res(i, :) = temp/obj.N; 
             end
+            
+            res(obj.Me, :) = res(obj.Me, :)+    u;
         end
         
                 
@@ -90,18 +86,15 @@ classdef Dynamics
                
         
         
-        function res = fz(obj, x, v, u)
-            res = obj.alpha1 * B(v, v, obj.N); 
-            res = res+  0.5*obj.alpha3 * norm(u)^2;
-            res = res+  obj.alpha5 * B(x, x, obj.N);
+        function res = fz(obj, x, v)
+            res = obj.alpha1 * Bp(v, obj.Me, obj.N); 
+            
             
             if obj.alpha7 ~= 0
                 temp = 0;
-                for i = 1:obj.N
-                    for j = 1:obj.N
-                        if obj.Adjc(i, j) ~= 0 && j>i % the j>i condition is essential because I want to include every edge only once!!!!!!!!!
-                            temp = temp+    V(norm(x(i, :) - x(j, :)), obj.R, obj.N);
-                        end
+                for j = 1:obj.N 
+                    if j ~= obj.Me
+                        temp = temp+    V(norm(x(obj.Me, :) - x(j, :)), obj.R, obj.N);
                     end
                 end
                 res = res+  obj.alpha7 * temp;
@@ -119,25 +112,14 @@ classdef Dynamics
             temp = zeros(obj.d, obj.d);
             
             for j = 1:obj.N
-                temp = temp+    (v(j, :) - v(i, :))' * obj.da(norm(x(i, :) - x(j, :))) * obj.dnorm(x, i, j, k);
+                temp = temp+    (v(j, :) - v(i, :))' * obj.da(norm(x(i, :) - x(j, :))) * dnormdiff(x, i, j, k, obj.d);
             end
             temp = temp/obj.N;
             
             res = temp;
         end
         
-        function res = dnorm(obj, x, i, j, k)
-            res = zeros(1, obj.d);
-            if i ~= j
-                if k == i
-                    res = x(k, :)/norm(x(k, :) - x(j, :));
-                else
-                    if k == j
-                        res = -x(k, :)/norm(x(i, :) - x(k, :));
-                    end
-                end
-            end
-        end
+        
         
        
         
@@ -153,7 +135,7 @@ classdef Dynamics
             temp = zeros(obj.d, obj.d);
             
             for j = 1:obj.N
-                temp = temp+   obj.a(norm(x(i, :) - x(j, :))) * (obj.dwdw(j, k) - obj.dwdw(i, k));
+                temp = temp+   obj.a(norm(x(i, :) - x(j, :))) * (dwdw(j, k, obj.d) - dwdw(i, k, obj.d));
             end
             temp = temp/obj.N;
             
@@ -161,12 +143,7 @@ classdef Dynamics
         end
         
                 
-        function res = dwdw(obj, i, k)
-            res = zeros(obj.d);
-            if(k == i)
-                res = eye(obj.d);
-            end
-        end
+        
         
         
         
@@ -205,25 +182,8 @@ classdef Dynamics
         
         
         function res = GuF(obj, argx, argu)
-            [x, v, z, u] = convert(argx, argu, obj.N, obj.d);
-            
-            N = obj.N;
-            d = obj.d;
-            
-            res = zeros(2*N*d + 1, N*d);
-            
-                        
-%             dfvdu
-            res(N*d+1:2*N*d, 1:N*d) = eye(N*d);
-            
-%             dfzdu
-            if obj.alpha3 ~= 0
-                temp = zeros(1, N*d);
-                for k = 1:N
-                    temp((k-1)*d+1:k*d) = obj.dfzdu(u, k); 
-                end
-                res(2*N*d+1, :) = temp;
-            end
+%             dfvdu            
+            res = eye(obj.d, obj.d);
         end
         
         
@@ -267,7 +227,7 @@ classdef Dynamics
             end
             
             %dfzdx
-            if obj.alpha5 ~= 0 || obj.alpha7 ~= 0
+            if obj.alpha7 ~= 0
                 temp = zeros(1, N*d);
                 for k = 1:N
                     temp((k-1)*d+1:k*d) = obj.dfzdx(x, k); 
@@ -288,19 +248,17 @@ classdef Dynamics
         
         
         function res = dfzdv(obj, v, k)
-            res = obj.alpha1 * dBdw(v, k, obj.N, obj.d);
+            res = obj.alpha1 * dBpdw(v, obj.Me, k, obj.N, obj.d);
         end
         
         function res = dfzdx(obj, x, k)
-            res = obj.alpha5 * dBdw(x, k, obj.N, obj.d);
+            res = zeros(1, obj.d);
             
             if obj.alpha7 ~= 0
                 temp = zeros(1, obj.d);
-                for i = 1:obj.N
-                    for j = 1:obj.N
-                        if obj.Adjc(i, j) ~= 0 && j>i % the j>i condition is essential because I want to include every edge only once!!!!!!!!!
-                            temp = temp+    dV(norm(x(i, :) - x(j, :)), obj.R, obj.N) * obj.dnorm(x, i, j, k);
-                        end
+                for j = 1:obj.N
+                    if j ~= obj.Me
+                        temp = temp+    dV(norm(x(obj.Me, :) - x(j, :)), obj.R, obj.N) * dnormdiff(x, obj.Me, j, k, obj.d);
                     end
                 end
                 res = res+  obj.alpha7 *temp;
