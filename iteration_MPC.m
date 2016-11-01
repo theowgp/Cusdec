@@ -17,7 +17,7 @@ function [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, T, n, R, Adjc)
     solu = zeros(N*d, n, s);
 % 
 for p = 1:N
-    p
+%     p
        
     x0 = set_w0(argx0, Adjc, N, p);
     v0 = set_w0(argv0, Adjc, N, p);

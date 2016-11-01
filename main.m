@@ -2,14 +2,14 @@
 
 %% PARAMETERS:
 % number of agents
-N = 5;
+N = 10;
 % dimension
 d = 2;
 
 % final time
-T = 10;
+T = 30;
 % number of time windows
-ndT = 10;
+ndT = 80;
 % time window
 dT = T/ndT;
 
@@ -49,6 +49,7 @@ Adjc = get_adjacency(initial_x0, N, R, zeros(N));
 
 for k = 1:ndT
     k
+    Adjc
     
     [solx, solu, Adjc] = iteration_MPC(N, d, argx0, argv0, dT, n, R, Adjc);
     [argx0, argv0, z] = convert_state(solx(:, end), N, d);
