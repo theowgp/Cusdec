@@ -2,23 +2,23 @@
 
 %% PARAMETERS:
 % number of agents
-N = 5;
+N = 20;
 % dimension
 d = 2;
 
 % final time
-T = 10;
+T = 20;
 % number of time windows
-ndT = 10;
+ndT = 80;
 % time window
 dT = T/ndT;
 
 % mesh length of a window
-n = 10;
+n = 40;
 
 
 % radius of interraction
-R = 2;
+R = 10;
 % radius of hysteresis
 % Rh = 3*R/4; % !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Rh = R;

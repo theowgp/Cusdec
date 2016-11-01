@@ -7,7 +7,7 @@ mesh = Mesh(T, n);
 
 
 %% SET OBJECTIVE PARAMETERS
-alpha1 = 1; % integral of V(t)
+alpha1 = 0; % integral of V(t)
 alpha2 = 1; % V(T)
 alpha3 = 0; % control
 alpha4 = 0; % E(t)
