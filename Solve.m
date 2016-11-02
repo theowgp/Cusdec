@@ -4,7 +4,7 @@ function [solxp, solup] = Solve(N, d, x0, v0, T, n, R)
 
 
 %% SET OBJECTIVE PARAMETERS
-alpha1 = 0; % integral of V(t)
+alpha1 = 1; % integral of V(t)
 alpha2 = 1; % V(T)
 % alpha3 = 0; % control
 alpha7 = 1; % the potential 

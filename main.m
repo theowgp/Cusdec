@@ -2,14 +2,14 @@
 
 %% PARAMETERS:
 % number of agents
-N = 10;
+N = 5;
 % dimension
 d = 2;
 
 % final time
-T = 20;
+T = 30;
 % number of time windows
-ndT = 100;
+ndT = 30;
 % time window
 dT = T/ndT;
 
@@ -25,11 +25,11 @@ R = 2;
 
 %% INITIAL CONDITIONS
 % initial positions
-initial_x0 = initx(N, d, N);
+x0 = initx(N, d, N);
 % x0 = x00;
 
 % initial velocities
-initial_v0 = initv(N, d, N);
+v0 = initv(N, d, N);
 % v0 = v00;
 
 
@@ -40,12 +40,14 @@ s = 3;% (should be the same as is used in Runge=Kutta scheme)
 control = zeros(N*d, n*ndT, s);
 
 % set the initial condition
-argx0 = initial_x0;
-argv0 = initial_v0;
+argx0 = x0;
+argv0 = v0;
 
 
 % set the initial adjacency matrix
-Adjc = get_adjacency(initial_x0, N, R, zeros(N));
+Adjc = get_adjacency(x0, N, R, zeros(N));
+
+
 
 for k = 1:ndT
     k
@@ -66,4 +68,4 @@ end
 
 
 
-display_results(solution, control, N, d, T, initial_x0, initial_v0, Adjc, R);
+display_results(solution, control, N, d, T, x0, v0, Adjc, R);
