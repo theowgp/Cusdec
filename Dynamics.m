@@ -13,13 +13,7 @@ classdef Dynamics
        
        alpha5;
        
-     
-       
-       R;
-       
-       
 
-        
     end
     
     
@@ -29,18 +23,16 @@ classdef Dynamics
     
     methods
         
-        function obj = Dynamics(N, d, delta, alpha1, alpha3, alpha5, R)
+        function obj = Dynamics(N, d, delta, alpha1, alpha3, alpha5)
             obj.N = N;
             obj.d = d;
             obj.delta = delta;
            
-            obj.R = R;
+            
 
             obj.alpha1 = alpha1;
             obj.alpha3 = alpha3;
             obj.alpha5 = alpha5;
-            
-
         end
         
 

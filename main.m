@@ -2,16 +2,26 @@
 
 %% PARAMETERS:
 % number of agents
-N = 3;
+N = 5;
 % dimension
 d = 2;
+
 % final time
 T = 10;
-% mesh length
-n = 500;
-% create mesch
-mesh = Mesh(T, n);
+% number of time windows
+ndT = 10;
+% time window
+dT = T/ndT;
 
+% mesh length of a window
+n = 10;
+
+
+%% SET OBJECTIVE PARAMETERS
+alpha1 = 1; % integral of V(t)
+alpha2 = 1; % V(T)
+alpha3 = 0; % control
+alpha5 = 0; % integral of X(t)
 
 
 %% INITIAL CONDITIONS
@@ -25,49 +35,30 @@ v0 = initv(N, d, N);
 
 
 
-%% SET OBJECTIVE PARAMETERS
-alpha1 = 0; % integral of V(t)
-alpha2 = 1; % V(T)
-alpha3 = 0; % control
-alpha5 = 0; % integral of X(t)
+%% CREATE SOLUTION AND CONTROL STACK
+solution = zeros(2*N*d+1, (n+1)*ndT);
+ 
+s = 3;% (should be the same as is used in Runge=Kutta scheme)
+control = zeros(N*d, n*ndT, s);
 
-%% CREATE THE DYNAMICS
-delta = 1;
-M = 1;
-R = N;
-dynamics = Dynamics(N, d, delta, alpha1, alpha3, alpha5, R);
-
-
-%% CREATE THE OBJECTIVE
-objective = Objective(dynamics, N, d, alpha2);
+% set the initial condition
+argx0 = x0;
+argv0 = v0;
 
 
 
-%% CREATE RUNGE KUTTA SOLVER
-A = [0 0 0; 0.5 0 0; -1 2 0];
-b = [1.0/6.0    2.0/3.0    1.0/6.0];
-% c = [0  0.5  1];
-s = 3;
-Nu = N*d;
-
-arg0 = [reshape(x0', [N*d, 1]); reshape(v0', [N*d, 1]); 0];
-
-rk = RungeKutta(A, b, s, dynamics, objective, arg0, 2*N*d+1, Nu, T, n);
-
-
-%% INITIAL CONTROL GUESS
-solu0 = zeros(N*d, n,  s);
-
-
-%% NCG MINIMIZATION
-eps = 1;% not used 
-sigma = 0.001;
-limitLS = 15;
-limitA = 25;
-[solx, solu] = NCG(rk, objective, mesh, solu0, eps, sigma, limitLS, limitA);
-
-sol = solx';
-t = mesh.t;
+for k = 1:ndT
+    k
+        
+    [solx, solu] = Solve(N, d, argx0, argv0, dT, n, alpha1, alpha2, alpha3, alpha5);
+    [argx0, argv0, z] = convert_state(solx(:, end), N, d);
+    
+    solution(:, (n+1)*(k-1)+1:(n+1)*k) = solx;
+    control(:, n*(k-1)+1:n*k, :) = solu;
+    
+    plot_trajectories(solx, N);
+    hold all
+end
 
 
 
@@ -76,4 +67,4 @@ t = mesh.t;
 
 
 
-OUTPUT; % script
+display_results(solution, control, N, d, T, x0, v0);

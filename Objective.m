@@ -41,13 +41,11 @@ classdef Objective
 
             
 %             ddhidv
-            if obj.alpha2 ~= 0  || obj.alpha4 ~= 0
+            if obj.alpha2 ~= 0 
                 temp2 = zeros(obj.N*obj.d, 1);
                 for k = 1:obj.N
                     temp2((k-1)*obj.d+1:k*obj.d, 1) = dBdw(v, k, obj.N, obj.d); 
                 end
-
-                V = B(v, obj.N, obj.d);
 
                 res(obj.N*obj.d+1:2*obj.N*obj.d, 1) = temp2*obj.alpha2; 
             end
