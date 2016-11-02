@@ -12,7 +12,7 @@ figure
 for k = 1:length(t)
 %     x = reshape(sol(k, 1 : N*d), [d, N])';
     v = reshape(sol(k, N*d+1 : 2*N*d), [d, N])';
-    YV(k) =  B(v, N, d);
+    YV(k) =  B(v, N);
 end
 plot(t, YV);
 title('V(t) = 1/2N^2  sumij||vi -vj ||^2');

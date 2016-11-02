@@ -8,7 +8,7 @@ d = 2;
 % final time
 T = 10;
 % mesh length
-n = 500;
+n = 80;
 % create mesch
 mesh = Mesh(T, n);
 
@@ -26,20 +26,22 @@ v0 = initv(N, d, N);
 
 
 %% SET OBJECTIVE PARAMETERS
-alpha1 = 0; % integral of V(t)
+alpha1 = 1; % integral of V(t)
 alpha2 = 1; % V(T)
 alpha3 = 0; % control
+alpha4 = 0; % E(t)
 alpha5 = 0; % integral of X(t)
 
 %% CREATE THE DYNAMICS
+gamma = 1;
 delta = 1;
 M = 1;
 R = N;
-dynamics = Dynamics(N, d, delta, alpha1, alpha3, alpha5, R);
+dynamics = Dynamics(N, d, gamma, delta, alpha1, alpha3, alpha5, M, R);
 
 
 %% CREATE THE OBJECTIVE
-objective = Objective(dynamics, N, d, alpha2);
+objective = Objective(dynamics, N, d, alpha2, alpha4);
 
 
 

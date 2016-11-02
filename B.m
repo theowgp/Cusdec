@@ -1,11 +1,11 @@
-function res = B(x, y, N)
+function res = B(v, N, d)
 
-res = 0;
-for i=1:N
-    for j=1:N
-        res = res+  (x(i, :) - x(j, :))*(y(i, :) - y(j, :))';
-    end
+vbar = mean(v, N, d);
+
+temp = 0;
+for i = 1:N
+    temp = temp+  norm(v(i, :) - vbar)^2;
 end
 
-res = res/(2*N^2);
+res = temp/N;
 end

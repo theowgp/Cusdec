@@ -80,9 +80,9 @@ classdef Dynamics
         
         
         function res = fz(obj, x, v, u)
-            res = obj.alpha1 * B(v, obj.N, obj.d); 
+            res = obj.alpha1 * B(v, obj.N); 
             res = res+  0.5*obj.alpha3 * norm(u)^2;
-            res = res+  obj.alpha5 * B(x, obj.N, obj.d);
+            res = res+  obj.alpha5 * B(x, obj.N);
         end
         
         

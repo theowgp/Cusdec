@@ -1,7 +1,7 @@
-function res = E(x, v, N)
+function res = E(x, v, N, d)
 
-V = B(v, v, N);
-X = B(x, x, N);
+V = B(v, N, d);
+X = B(x, N, d);
 
 res = sqrt(V);
 
