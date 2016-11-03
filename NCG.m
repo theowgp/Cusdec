@@ -26,7 +26,7 @@ while  kLS<limitLS && Phi1 < Phi0
     
     
     
-    Gradient = normsolu(g, mesh);
+%     Gradient = normsolu(g, mesh);
     
     Phi0 = Phi1;
     

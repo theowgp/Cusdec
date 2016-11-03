@@ -1,4 +1,4 @@
-function x = initx(N, d, maxx )
+function x = initx(N, d, maxx, R )
 x = zeros(N, d);
 
 % % random
@@ -19,13 +19,13 @@ x = zeros(N, d);
 %     2 0
 %     ];
 
-x = [
-     1  1  
-    -1  0
-     0  1
-     1  0
-     0 -1
-    ];
+% x = [
+%      1  1  
+%     -1  0
+%      0  1
+%      1  0
+%      0 -1
+%     ];
 
 
 % x = [
@@ -44,12 +44,24 @@ x = [
 
 
 
-% x = [
-%     -1 0
-%     0 1
-%     1 0
-%     ];
+x = [
+    -2 0
+    0 2
+    2 0
+    ];
 
+
+% 
+% % uniform circle
+% eps = 0.3;
+% 
+% radius = N*R/(2*pi) - eps;
+% t = linspace(0, 2*pi, N+1);
+% 
+% for i=1:N
+%     x(i, 1) = radius *cos(t(i));
+%     x(i, 2) = radius *sin(t(i));
+% end
 
 
 end

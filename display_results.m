@@ -1,4 +1,4 @@
-function display_results(solx, solu, N, d, T, x0, v0, Adjc, R)
+function [xT, vT] =  display_results(solx, solu, N, d, T, x0, v0, Adjc, R)
 
 
 [m, n] = size(solx) ;
